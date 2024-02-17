@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<head>
+    <title>Pavle's present</title>
+</head>
+<div id="intro">Pavle's birthday present will be unlocked in </div>
+<br> <br>
+<div id="timer"></div> <br> <br> <br>
+<div id="divPrice">Current value <p id="price"></p>
+</div>
+<style>
+    body {
+        text-align: center;
+        padding: 70px 50px;
+        background: #0D1A29;
+        font-family: "Helvetica Neue", "Open Sans", helvetica, arial, sans-serif;
+    }
+
+    body {
+        font-size: 3em;
+        font-weight: 100;
+        color: white;
+        text-shadow: 0 0 20px #48C8FF;
+
+        div {
+            display: inline-block;
+            min-width: 90px;
+
+            span {
+                color: #B1CDF1;
+                display: block;
+                font-size: .35em;
+                font-weight: 400;
+            }
+        }
+    }
+
+    span {
+        color: #B1CDF1;
+        display: block;
+        font-size: .35em;
+        font-weight: 400;
+    }
+
+    #divPrice {
+        visibility: hidden;
+        color: #e38b07;
+    }
+</style>
+
+<script>
+
+    var price = 0;
+
+    function updatePrice() {
+        try {
+            fetch('https://api.coinbase.com/v2/exchange-rates?currency=BTC', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(response => {
+                    price = response.data.rates["USD"];
+                    if (price > 0) {
+                        price = price * 0.0038888753858494;
+                        price = price.toFixed(2);
+                        document.getElementById("divPrice").style.visibility = "visible"
+                        document.getElementById("price").innerHTML = `${price} USD`;
+
+                    }
+
+                })
+        }
+        catch {
+
+        }
+    }
+    function updateTimer() {
+        future = Date.parse("February 22, 2041 00:01:00");
+        now = new Date();
+        diff = future - now;
+
+        if(diff <= 0) {
+            showPassword();
+        }
+
+        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        hours = Math.floor(diff / (1000 * 60 * 60));
+        mins = Math.floor(diff / (1000 * 60));
+        secs = Math.floor(diff / 1000);
+
+        d = days;
+        h = hours - days * 24;
+        m = mins - hours * 60;
+        s = secs - mins * 60;
+
+        document.getElementById("timer")
+            .innerHTML =
+            '<div>' + d + '<span>days</span></div>' +
+            '<div>' + h + '<span>hours</span></div>' +
+            '<div>' + m + '<span>minutes</span></div>' +
+            '<div>' + s + '<span>seconds</span></div>';
+    }
+
+    function showPassword() {
+        document.getElementById("timer").remove();
+        document.getElementById("intro").innerHTML = "";
+    }
+
+    updatePrice();
+    updateTimer();
+    setInterval('updateTimer()', 1000);
+    setInterval('updatePrice()', 1000 * 60 * 5);
+
+
+</script>
