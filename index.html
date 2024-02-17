@@ -2,7 +2,7 @@
 <head>
     <title>Pavle's present</title>
 </head>
-<div id="intro">Pavle's birthday present will be unlocked in </div>
+<div id="intro">Pavle's birthday present will be unlocked in</div>
 <br> <br>
 <div id="timer"></div> <br> <br> <br>
 <div id="divPrice">Current value <p id="price"></p>
@@ -63,7 +63,7 @@
                 .then(response => {
                     price = response.data.rates["USD"];
                     if (price > 0) {
-                        price = price * 0.0038888753858494;
+                        price = price * 0.002919;
                         price = price.toFixed(2);
                         document.getElementById("divPrice").style.visibility = "visible"
                         document.getElementById("price").innerHTML = `${price} USD`;
