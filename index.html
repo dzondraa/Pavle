@@ -63,7 +63,7 @@
                 .then(response => {
                     price = response.data.rates["USD"];
                     if (price > 0) {
-                        price = price * 0.002919;
+                        price = price * 0.0038888753858494;
                         price = price.toFixed(2);
                         document.getElementById("divPrice").style.visibility = "visible"
                         document.getElementById("price").innerHTML = `${price} USD`;
